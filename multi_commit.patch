@@ -1,0 +1,555 @@
+From 1c26f9cbad7b9bf859b3de73c4c65fb58e028a5f Mon Sep 17 00:00:00 2001
+From: josiahdc <josiah.chapman@gmail.com>
+Date: Sun, 9 Jan 2022 14:06:46 -0800
+Subject: [PATCH] initial commit
+
+---
+ .gitignore                  | 132 +++++++++++++++++++++++++
+ README.md                   |   2 +
+ car.py                      |  10 ++
+ engine/__init__.py          |   0
+ engine/capulet_engine.py    |  13 +++
+ engine/model/__init__.py    |   0
+ engine/model/calliope.py    |  12 +++
+ engine/model/glissade.py    |  12 +++
+ engine/model/palindrome.py  |  12 +++
+ engine/model/rorschach.py   |  12 +++
+ engine/model/thovex.py      |  12 +++
+ engine/sternman_engine.py   |  15 +++
+ engine/willoughby_engine.py |  13 +++
+ test/__init__.py            |   0
+ test/test_car.py            | 188 ++++++++++++++++++++++++++++++++++++
+ 15 files changed, 433 insertions(+)
+ create mode 100644 .gitignore
+ create mode 100644 README.md
+ create mode 100644 car.py
+ create mode 100644 engine/__init__.py
+ create mode 100644 engine/capulet_engine.py
+ create mode 100644 engine/model/__init__.py
+ create mode 100644 engine/model/calliope.py
+ create mode 100644 engine/model/glissade.py
+ create mode 100644 engine/model/palindrome.py
+ create mode 100644 engine/model/rorschach.py
+ create mode 100644 engine/model/thovex.py
+ create mode 100644 engine/sternman_engine.py
+ create mode 100644 engine/willoughby_engine.py
+ create mode 100644 test/__init__.py
+ create mode 100644 test/test_car.py
+
+diff --git a/.gitignore b/.gitignore
+new file mode 100644
+index 0000000..484fc1e
+--- /dev/null
++++ b/.gitignore
+@@ -0,0 +1,132 @@
++# pycharm ftw
++.idea
++
++# Byte-compiled / optimized / DLL files
++__pycache__/
++*.py[cod]
++*$py.class
++
++# C extensions
++*.so
++
++# Distribution / packaging
++.Python
++build/
++develop-eggs/
++dist/
++downloads/
++eggs/
++.eggs/
++lib/
++lib64/
++parts/
++sdist/
++var/
++wheels/
++pip-wheel-metadata/
++share/python-wheels/
++*.egg-info/
++.installed.cfg
++*.egg
++MANIFEST
++
++# PyInstaller
++#  Usually these files are written by a python script from a template
++#  before PyInstaller builds the exe, so as to inject date/other infos into it.
++*.manifest
++*.spec
++
++# Installer logs
++pip-log.txt
++pip-delete-this-directory.txt
++
++# Unit test / coverage reports
++htmlcov/
++.tox/
++.nox/
++.coverage
++.coverage.*
++.cache
++nosetests.xml
++coverage.xml
++*.cover
++*.py,cover
++.hypothesis/
++.pytest_cache/
++
++# Translations
++*.mo
++*.pot
++
++# Django stuff:
++*.log
++local_settings.py
++db.sqlite3
++db.sqlite3-journal
++
++# Flask stuff:
++instance/
++.webassets-cache
++
++# Scrapy stuff:
++.scrapy
++
++# Sphinx documentation
++docs/_build/
++
++# PyBuilder
++target/
++
++# Jupyter Notebook
++.ipynb_checkpoints
++
++# IPython
++profile_default/
++ipython_config.py
++
++# pyenv
++.python-version
++
++# pipenv
++#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
++#   However, in case of collaboration, if having platform-specific dependencies or dependencies
++#   having no cross-platform support, pipenv may install dependencies that don't work, or not
++#   install all needed dependencies.
++#Pipfile.lock
++
++# PEP 582; used by e.g. github.com/David-OConnor/pyflow
++__pypackages__/
++
++# Celery stuff
++celerybeat-schedule
++celerybeat.pid
++
++# SageMath parsed files
++*.sage.py
++
++# Environments
++.env
++.venv
++env/
++venv/
++ENV/
++env.bak/
++venv.bak/
++
++# Spyder project settings
++.spyderproject
++.spyproject
++
++# Rope project settings
++.ropeproject
++
++# mkdocs documentation
++/site
++
++# mypy
++.mypy_cache/
++.dmypy.json
++dmypy.json
++
++# Pyre type checker
++.pyre/
+diff --git a/README.md b/README.md
+new file mode 100644
+index 0000000..8b5ae3b
+--- /dev/null
++++ b/README.md
+@@ -0,0 +1,2 @@
++# Starter Repo
++This repo has everything you need to get started on the program, good luck!
+diff --git a/car.py b/car.py
+new file mode 100644
+index 0000000..f7b980a
+--- /dev/null
++++ b/car.py
+@@ -0,0 +1,10 @@
++from abc import ABC, abstractmethod
++
++
++class Car(ABC):
++    def __init__(self, last_service_date):
++        self.last_service_date = last_service_date
++
++    @abstractmethod
++    def needs_service(self):
++        pass
+diff --git a/engine/__init__.py b/engine/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/engine/capulet_engine.py b/engine/capulet_engine.py
+new file mode 100644
+index 0000000..69a2f33
+--- /dev/null
++++ b/engine/capulet_engine.py
+@@ -0,0 +1,13 @@
++from abc import ABC
++
++from car import Car
++
++
++class CapuletEngine(Car, ABC):
++    def __init__(self, last_service_date, current_mileage, last_service_mileage):
++        super().__init__(last_service_date)
++        self.current_mileage = current_mileage
++        self.last_service_mileage = last_service_mileage
++
++    def engine_should_be_serviced(self):
++        return self.current_mileage - self.last_service_mileage > 30000
+diff --git a/engine/model/__init__.py b/engine/model/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/engine/model/calliope.py b/engine/model/calliope.py
+new file mode 100644
+index 0000000..1dd3da5
+--- /dev/null
++++ b/engine/model/calliope.py
+@@ -0,0 +1,12 @@
++from datetime import datetime
++
++from engine.capulet_engine import CapuletEngine
++
++
++class Calliope(CapuletEngine):
++    def needs_service(self):
++        service_threshold_date = self.last_service_date.replace(year=self.last_service_date.year + 2)
++        if service_threshold_date < datetime.today().date() or self.engine_should_be_serviced():
++            return True
++        else:
++            return False
+diff --git a/engine/model/glissade.py b/engine/model/glissade.py
+new file mode 100644
+index 0000000..e1b16ad
+--- /dev/null
++++ b/engine/model/glissade.py
+@@ -0,0 +1,12 @@
++from datetime import datetime
++
++from engine.willoughby_engine import WilloughbyEngine
++
++
++class Glissade(WilloughbyEngine):
++    def needs_service(self):
++        service_threshold_date = self.last_service_date.replace(year=self.last_service_date.year + 2)
++        if service_threshold_date < datetime.today().date() or self.engine_should_be_serviced():
++            return True
++        else:
++            return False
+diff --git a/engine/model/palindrome.py b/engine/model/palindrome.py
+new file mode 100644
+index 0000000..590864b
+--- /dev/null
++++ b/engine/model/palindrome.py
+@@ -0,0 +1,12 @@
++from datetime import datetime
++
++from engine.sternman_engine import SternmanEngine
++
++
++class Palindrome(SternmanEngine):
++    def needs_service(self):
++        service_threshold_date = self.last_service_date.replace(year=self.last_service_date.year + 4)
++        if service_threshold_date < datetime.today().date() or self.engine_should_be_serviced():
++            return True
++        else:
++            return False
+diff --git a/engine/model/rorschach.py b/engine/model/rorschach.py
+new file mode 100644
+index 0000000..b9eedc9
+--- /dev/null
++++ b/engine/model/rorschach.py
+@@ -0,0 +1,12 @@
++from datetime import datetime
++
++from engine.willoughby_engine import WilloughbyEngine
++
++
++class Rorschach(WilloughbyEngine):
++    def needs_service(self):
++        service_threshold_date = self.last_service_date.replace(year=self.last_service_date.year + 4)
++        if service_threshold_date < datetime.today().date() or self.engine_should_be_serviced():
++            return True
++        else:
++            return False
+diff --git a/engine/model/thovex.py b/engine/model/thovex.py
+new file mode 100644
+index 0000000..eac5707
+--- /dev/null
++++ b/engine/model/thovex.py
+@@ -0,0 +1,12 @@
++from datetime import datetime
++
++from engine.capulet_engine import CapuletEngine
++
++
++class Thovex(CapuletEngine):
++    def needs_service(self):
++        service_threshold_date = self.last_service_date.replace(year=self.last_service_date.year + 4)
++        if service_threshold_date < datetime.today().date() or self.engine_should_be_serviced():
++            return True
++        else:
++            return False
+diff --git a/engine/sternman_engine.py b/engine/sternman_engine.py
+new file mode 100644
+index 0000000..72d8b5a
+--- /dev/null
++++ b/engine/sternman_engine.py
+@@ -0,0 +1,15 @@
++from abc import ABC
++
++from car import Car
++
++
++class SternmanEngine(Car, ABC):
++    def __init__(self, last_service_date, warning_light_is_on):
++        super().__init__(last_service_date)
++        self.warning_light_is_on = warning_light_is_on
++
++    def engine_should_be_serviced(self):
++        if self.warning_light_is_on:
++            return True
++        else:
++            return False
+diff --git a/engine/willoughby_engine.py b/engine/willoughby_engine.py
+new file mode 100644
+index 0000000..e5e0dc5
+--- /dev/null
++++ b/engine/willoughby_engine.py
+@@ -0,0 +1,13 @@
++from abc import ABC
++
++from car import Car
++
++
++class WilloughbyEngine(Car, ABC):
++    def __init__(self, last_service_date, current_mileage, last_service_mileage):
++        super().__init__(last_service_date)
++        self.current_mileage = current_mileage
++        self.last_service_mileage = last_service_mileage
++
++    def engine_should_be_serviced(self):
++        return self.current_mileage - self.last_service_mileage > 60000
+diff --git a/test/__init__.py b/test/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/test/test_car.py b/test/test_car.py
+new file mode 100644
+index 0000000..f599467
+--- /dev/null
++++ b/test/test_car.py
+@@ -0,0 +1,188 @@
++import unittest
++from datetime import datetime
++
++from engine.model.calliope import Calliope
++from engine.model.glissade import Glissade
++from engine.model.palindrome import Palindrome
++from engine.model.rorschach import Rorschach
++from engine.model.thovex import Thovex
++
++
++class TestCalliope(unittest.TestCase):
++    def test_battery_should_be_serviced(self):
++        today = datetime.today().date()
++        last_service_date = today.replace(year=today.year - 3)
++        current_mileage = 0
++        last_service_mileage = 0
++
++        car = Calliope(last_service_date, current_mileage, last_service_mileage)
++        self.assertTrue(car.needs_service())
++
++    def test_battery_should_not_be_serviced(self):
++        today = datetime.today().date()
++        last_service_date = today.replace(year=today.year - 1)
++        current_mileage = 0
++        last_service_mileage = 0
++
++        car = Calliope(last_service_date, current_mileage, last_service_mileage)
++        self.assertFalse(car.needs_service())
++
++    def test_engine_should_be_serviced(self):
++        last_service_date = datetime.today().date()
++        current_mileage = 30001
++        last_service_mileage = 0
++
++        car = Calliope(last_service_date, current_mileage, last_service_mileage)
++        self.assertTrue(car.needs_service())
++
++    def test_engine_should_not_be_serviced(self):
++        last_service_date = datetime.today().date()
++        current_mileage = 30000
++        last_service_mileage = 0
++
++        car = Calliope(last_service_date, current_mileage, last_service_mileage)
++        self.assertFalse(car.needs_service())
++
++
++class TestGlissade(unittest.TestCase):
++    def test_battery_should_be_serviced(self):
++        today = datetime.today().date()
++        last_service_date = today.replace(year=today.year - 3)
++        current_mileage = 0
++        last_service_mileage = 0
++
++        car = Glissade(last_service_date, current_mileage, last_service_mileage)
++        self.assertTrue(car.needs_service())
++
++    def test_battery_should_not_be_serviced(self):
++        today = datetime.today().date()
++        last_service_date = today.replace(year=today.year - 1)
++        current_mileage = 0
++        last_service_mileage = 0
++
++        car = Glissade(last_service_date, current_mileage, last_service_mileage)
++        self.assertFalse(car.needs_service())
++
++    def test_engine_should_be_serviced(self):
++        last_service_date = datetime.today().date()
++        current_mileage = 60001
++        last_service_mileage = 0
++
++        car = Glissade(last_service_date, current_mileage, last_service_mileage)
++        self.assertTrue(car.needs_service())
++
++    def test_engine_should_not_be_serviced(self):
++        last_service_date = datetime.today().date()
++        current_mileage = 60000
++        last_service_mileage = 0
++
++        car = Glissade(last_service_date, current_mileage, last_service_mileage)
++        self.assertFalse(car.needs_service())
++
++
++class TestPalindrome(unittest.TestCase):
++    def test_battery_should_be_serviced(self):
++        today = datetime.today().date()
++        last_service_date = today.replace(year=today.year - 5)
++        warning_light_is_on = False
++
++        car = Palindrome(last_service_date, warning_light_is_on)
++        self.assertTrue(car.needs_service())
++
++    def test_battery_should_not_be_serviced(self):
++        today = datetime.today().date()
++        last_service_date = today.replace(year=today.year - 3)
++        warning_light_is_on = False
++
++        car = Palindrome(last_service_date, warning_light_is_on)
++        self.assertFalse(car.needs_service())
++
++    def test_engine_should_be_serviced(self):
++        last_service_date = datetime.today().date()
++        warning_light_is_on = True
++
++        car = Palindrome(last_service_date, warning_light_is_on)
++        self.assertTrue(car.needs_service())
++
++    def test_engine_should_not_be_serviced(self):
++        last_service_date = datetime.today().date()
++        warning_light_is_on = False
++
++        car = Palindrome(last_service_date, warning_light_is_on)
++        self.assertFalse(car.needs_service())
++
++
++class TestRorschach(unittest.TestCase):
++    def test_battery_should_be_serviced(self):
++        today = datetime.today().date()
++        last_service_date = today.replace(year=today.year - 5)
++        current_mileage = 0
++        last_service_mileage = 0
++
++        car = Rorschach(last_service_date, current_mileage, last_service_mileage)
++        self.assertTrue(car.needs_service())
++
++    def test_battery_should_not_be_serviced(self):
++        today = datetime.today().date()
++        last_service_date = today.replace(year=today.year - 3)
++        current_mileage = 0
++        last_service_mileage = 0
++
++        car = Rorschach(last_service_date, current_mileage, last_service_mileage)
++        self.assertFalse(car.needs_service())
++
++    def test_engine_should_be_serviced(self):
++        last_service_date = datetime.today().date()
++        current_mileage = 60001
++        last_service_mileage = 0
++
++        car = Rorschach(last_service_date, current_mileage, last_service_mileage)
++        self.assertTrue(car.needs_service())
++
++    def test_engine_should_not_be_serviced(self):
++        last_service_date = datetime.today().date()
++        current_mileage = 60000
++        last_service_mileage = 0
++
++        car = Rorschach(last_service_date, current_mileage, last_service_mileage)
++        self.assertFalse(car.needs_service())
++
++
++class TestThovex(unittest.TestCase):
++    def test_battery_should_be_serviced(self):
++        today = datetime.today().date()
++        last_service_date = today.replace(year=today.year - 5)
++        current_mileage = 0
++        last_service_mileage = 0
++
++        car = Thovex(last_service_date, current_mileage, last_service_mileage)
++        self.assertTrue(car.needs_service())
++
++    def test_battery_should_not_be_serviced(self):
++        today = datetime.today().date()
++        last_service_date = today.replace(year=today.year - 3)
++        current_mileage = 0
++        last_service_mileage = 0
++
++        car = Thovex(last_service_date, current_mileage, last_service_mileage)
++        self.assertFalse(car.needs_service())
++
++    def test_engine_should_be_serviced(self):
++        last_service_date = datetime.today().date()
++        current_mileage = 30001
++        last_service_mileage = 0
++
++        car = Thovex(last_service_date, current_mileage, last_service_mileage)
++        self.assertTrue(car.needs_service())
++
++    def test_engine_should_not_be_serviced(self):
++        last_service_date = datetime.today().date()
++        current_mileage = 30000
++        last_service_mileage = 0
++
++        car = Thovex(last_service_date, current_mileage, last_service_mileage)
++        self.assertFalse(car.needs_service())
++
++
++if __name__ == '__main__':
++    unittest.main()
+-- 
+2.42.0.windows.2
+
